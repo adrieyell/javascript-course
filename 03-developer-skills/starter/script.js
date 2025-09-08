@@ -455,47 +455,15 @@ console.log('Debug session result:', debugResult);
 ////////////////////////////////////
 // SYSTEMATIC BUG FIXING APPLICATION
 
-/*
-DEBUGGING PROCESS APPLICATION:
-
-STEP 1: IDENTIFY ✅
-- Bug: calculateAverageScore returns NaN or wrong value
-- Expected: Average of [85, 92, 78, 96, 88] should be 87.8
-- Actual: Getting NaN or incorrect value
-
-STEP 2: ISOLATE ✅
-- Bug location: Inside calculateAverageScore function
-- Specific issues: initialization, loop condition, division
-
-STEP 3: INVESTIGATE ✅
-- total starts as undefined (undefined + number = NaN)
-- Loop goes one iteration too far (accesses undefined)
-- Division uses wrong denominator
-
-STEP 4: FIX ✅
-- Initialize total to 0
-- Change <= to < in loop condition
-- Remove + 1 from division
-
-STEP 5: PREVENT ✅
-- Add input validation
-- Add type checking for array elements
-*/
-
 function calculateAverageScoreFixed(scores) {
-  // STEP 5 - PREVENT: Add input validation
   if (!Array.isArray(scores) || scores.length === 0) {
     console.error('Invalid input: scores must be a non-empty array');
     return 0;
   }
 
-  // STEP 4 - FIX: Proper initialization
-  let total = 0; // FIXED: Initialize to 0, not undefined
+  let total = 0; 
 
-  // STEP 4 - FIX: Correct loop condition
   for (let i = 0; i < scores.length; i++) {
-    // FIXED: < instead of <=
-    // STEP 5 - PREVENT: Add type checking
     if (typeof scores[i] === 'number') {
       total += scores[i];
     } else {
@@ -503,18 +471,13 @@ function calculateAverageScoreFixed(scores) {
     }
   }
 
-  // STEP 4 - FIX: Correct division
-  return total / scores.length; // FIXED: Remove + 1
+  return total / scores.length; 
 }
 
-// Test the fixed function
 const fixedResult = calculateAverageScoreFixed(testScores);
-console.log('Fixed result:', fixedResult); // Should show correct average: 87.8
+console.log('Fixed result:', fixedResult);
 
 ///// Comprehensive debugging verification
-console.group('Debugging Verification Tests');
-
-// Comprehensive debugging verification
 console.group('Debugging Verification Tests');
 
 // Test 1 - Normal case
@@ -541,3 +504,135 @@ console.log('Systematic debugging process successfully applied!');
 console.log(
   'All bugs identified, isolated, investigated, fixed, and prevented'
 );
+
+//// Developer Skills Hour 4 - Advanced Problem-Solving & Real-World Challenges
+('use strict');
+
+console.log('=== HOUR 4: ADVANCED PROBLEM-SOLVING MASTERY ===');
+
+console.log('Ready to tackle complex problems using systematic approaches');
+console.log('Challenge: Build solutions that work under pressure');
+
+////////////////////////////////////
+// MAIN CHALLENGE: Weather Forecast String Builder
+
+const data1 = [17, 21, 23];
+const data2 = [12, 5, -5, 0, 4];
+
+function printForecast(arr) {
+  let str = '';
+
+  for (let i = 0; i < arr.length; i++) {
+    str += `${arr[i]}°C in ${i + 1} days ... `;
+  }
+
+  console.log('...' + str);
+}
+
+printForecast(data1);
+printForecast(data2);
+
+console.log('Weather forecast formatter working correctly!');
+
+// ALTERNATIVE IMPLEMENTATIONS
+
+// Alternative 1 - Using array methods instead of loops
+function printForecastMap(arr) {
+  const formatted = arr.map((temp, index) => `${temp}°C in ${index + 1} days`);
+  console.log('...' + formatted.join(' ... ') + ' ...');
+}
+
+// Alternative 2 - Single line approach using reduce
+function printForecastReduce(arr) {
+  const result = arr.reduce(
+    (acc, temp, index) => acc + `${temp}°C in ${index + 1} days ... `,
+    '...'
+  );
+  console.log(result);
+}
+
+// Test alternative approaches
+console.log('Testing alternative implementations:');
+printForecastMap(data1);
+printForecastReduce(data1);
+
+// TIME- PRESSURED CHALLENGE: Work Hours Analyzer
+
+function analyzeWorkWeek(dailyHours) {
+  const totalHours = dailyHours.reduce((sum, hours) => sum + hours, 0);
+  const averageHours = Math.round((totalHours / dailyHours.length) * 10) / 10;
+
+  const maxHours = Math.max(...dailyHours);
+  const maxDayIndex = dailyHours.indexOf(maxHours);
+  const days = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday',
+  ];
+  const maxDay = days[maxDayIndex];
+
+  const daysWorked = dailyHours.filter(hours => hours > 0).length;
+  const isFullTime = totalHours >= 35;
+
+  return {
+    totalHours,
+    averageHours,
+    maxDay,
+    daysWorked,
+    isFullTime,
+  };
+}
+
+const weeklyHours = [7.5, 8, 6.5, 0, 8.5, 4, 0];
+const analysis = analyzeWorkWeek(weeklyHours);
+console.log('Work week analysis:', analysis);
+
+console.log('Challenge completed under time pressure!');
+
+// FINAL INTEGRATION: Debug and Enhance Legacy Code
+function legacyForecastFunction(temperatures) {
+  var result = '';
+  for (var i = 1; i <= temperatures.length; i++) {
+    result = result + temperatures[i] + ' degrees in day ' + i + ', ';
+  }
+  return result;
+}
+const testData = [15, 18, 22, 19];
+console.log('Buggy function output:', legacyForecastFunction(testData));
+
+// SYSTEMATIC DEBUGGING AND ENHANCEMENT
+
+function enhancedForecastFunction(temperatures, options = {}) {
+  if (!Array.isArray(temperatures) || temperatures.length === 0) {
+    console.error('Invalid input: temperatures must be a non-empty array');
+    return '';
+  }
+
+  const { unit = '°C', separator = '...', includeIndex = true } = options;
+
+  let result = '';
+
+  for (let i = 0; i < temperatures.length; i++) {
+    const dayNumber = includeIndex ? i + 1 : i;
+    result += `${temperatures[i]}${unit} in ${dayNumber} days${separator}`;
+  }
+
+  return separator + result.slice(0, -separator.length);
+}
+
+console.log('Enhanced function (default):', enhancedForecastFunction(testData));
+console.log(
+  'Enhanced function (custom):',
+  enhancedForecastFunction(testData, {
+    unit: '°F',
+    separator: ' | ',
+    includeIndex: true,
+  })
+);
+
+console.log('🎯 Complete developer skills successfully applied!');
+console.log('Legacy code debugged, fixed, and enhanced systematically');
