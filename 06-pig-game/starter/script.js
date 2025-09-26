@@ -28,6 +28,8 @@ const btnRollEl = document.querySelector('.btn--roll');
 
 const btnHoldEl = document.querySelector('.btn--hold');
 
+const btnNewEl = document.querySelector('.btn--new');
+
 // game initialization function
 const init = function () {
   // start with both players having zero total score
@@ -42,10 +44,22 @@ const init = function () {
 
   // reset all the display
   score0El.textContent = 0;
+
   score1El.textContent = 0;
+
   current0El.textContent = 0;
+
   current1El.textContent = 0;
+
   diceEl.classList.add('hidden');
+
+  player0El.classList.remove('player--winner');
+
+  player1El.classList.remove('player--winner');
+
+  player0El.classList.add('player--active');
+
+  player1El.classList.remove('player--active');
 };
 
 init();
@@ -94,6 +108,21 @@ btnHoldEl.addEventListener('click', function () {
     scores[activePlayer] += currentScore;
     document.getElementById(`score--${activePlayer}`).textContent =
       scores[activePlayer];
-    switchPlayer();
+    if (scores[activePlayer] >= 100) {
+      playing = false;
+      diceEl.classList.add('hidden');
+
+      document
+        .querySelector(`.player--${activePlayer}`)
+        .classList.add(`player--winner`);
+
+      document
+        .querySelector(`player--${activePlayer}`)
+        .classList.remove(`player--active`);
+    } else {
+      switchPlayer();
+    }
   }
 });
+
+btnNewEl.addEventListener('click', init);
